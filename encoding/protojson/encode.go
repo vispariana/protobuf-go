@@ -308,10 +308,12 @@ func (e encoder) marshalSingular(val protoreflect.Value, fd protoreflect.FieldDe
 	case protoreflect.Uint32Kind, protoreflect.Fixed32Kind:
 		e.WriteUint(val.Uint())
 
-	case protoreflect.Int64Kind, protoreflect.Sint64Kind, protoreflect.Uint64Kind,
-		protoreflect.Sfixed64Kind, protoreflect.Fixed64Kind:
+	case protoreflect.Int64Kind, protoreflect.Sint64Kind, protoreflect.Sfixed64Kind:
 		// 64-bit integers are written out as JSON string.
-		e.WriteString(val.String())
+		e.WriteInt(val.Int())
+
+	case protoreflect.Uint64Kind, protoreflect.Fixed64Kind:
+		e.WriteUint(val.Uint())
 
 	case protoreflect.FloatKind:
 		// Encoder.WriteFloat handles the special numbers NaN and infinites.
